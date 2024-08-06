@@ -1,4 +1,4 @@
-package com.thatwaz.quizabulary.data.local
+package com.thatwaz.quizabulary.data.local.entities
 
 import androidx.room.Embedded
 import androidx.room.Relation

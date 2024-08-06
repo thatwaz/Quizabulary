@@ -14,9 +14,15 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.thatwaz.quizabulary.ui.theme.QuizabularyTheme
+import com.thatwaz.quizabulary.ui.views.DraftWordsScreen
 import com.thatwaz.quizabulary.ui.views.HomeScreen
 import com.thatwaz.quizabulary.ui.views.QuickAddScreen
+import com.thatwaz.quizabulary.ui.views.WordDefinitionScreen
+import dagger.hilt.android.AndroidEntryPoint
 
+//Start Date 08/04/2024
+
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +46,14 @@ fun AppNavHost(navController: NavHostController, modifier: Modifier = Modifier) 
     NavHost(navController, startDestination = "home_screen", modifier = modifier) {
         composable("home_screen") { HomeScreen(navController) }
         composable("quick_add_screen") { QuickAddScreen(navController) }
-        // Add other screens here
+        composable("draft_words_screen") { DraftWordsScreen(navController) }
+
+        // Word Definition Screen with argument
+        composable("word_definition_screen/{word}") { backStackEntry ->
+            val word = backStackEntry.arguments?.getString("word") ?: ""
+            WordDefinitionScreen(navController = navController, word = word)
+        }
     }
 }
+
 

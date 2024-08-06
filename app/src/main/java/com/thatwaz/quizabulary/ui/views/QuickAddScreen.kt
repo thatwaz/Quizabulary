@@ -1,5 +1,9 @@
 package com.thatwaz.quizabulary.ui.views
 
+
+
+
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -24,12 +28,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.thatwaz.quizabulary.viewmodel.WordViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun QuickAddScreen(navController: NavController) {
+fun QuickAddScreen(
+    navController: NavController,
+    viewModel: WordViewModel = hiltViewModel() // Obtain the ViewModel using Hilt
+) {
     var word by remember { mutableStateOf("") }
     var note by remember { mutableStateOf("") }
 
@@ -71,9 +80,8 @@ fun QuickAddScreen(navController: NavController) {
 
                 Button(
                     onClick = {
-                        // Save word and note to database
-                        // Navigate back or show a confirmation message
-                        navController.popBackStack()
+                        viewModel.saveQuickAddWord(word, note)
+                        navController.popBackStack() // Go back after saving
                     }
                 ) {
                     Text("Save")
@@ -82,3 +90,60 @@ fun QuickAddScreen(navController: NavController) {
         }
     )
 }
+
+
+//@OptIn(ExperimentalMaterial3Api::class)
+//@Composable
+//fun QuickAddScreen(navController: NavController) {
+//    var word by remember { mutableStateOf("") }
+//    var note by remember { mutableStateOf("") }
+//
+//    Scaffold(
+//        topBar = {
+//            TopAppBar(
+//                title = { Text("Quick Add Word") },
+//                navigationIcon = {
+//                    IconButton(onClick = { navController.popBackStack() }) {
+//                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+//                    }
+//                }
+//            )
+//        },
+//        content = { padding ->
+//            Column(
+//                modifier = Modifier
+//                    .fillMaxSize()
+//                    .padding(padding)
+//                    .padding(16.dp),
+//                verticalArrangement = Arrangement.Center,
+//                horizontalAlignment = Alignment.CenterHorizontally
+//            ) {
+//                OutlinedTextField(
+//                    value = word,
+//                    onValueChange = { word = it },
+//                    label = { Text("Word") }
+//                )
+//
+//                Spacer(modifier = Modifier.height(16.dp))
+//
+//                OutlinedTextField(
+//                    value = note,
+//                    onValueChange = { note = it },
+//                    label = { Text("Note (optional)") }
+//                )
+//
+//                Spacer(modifier = Modifier.height(24.dp))
+//
+//                Button(
+//                    onClick = {
+//                        // Save word and note to database
+//                        // Navigate back or show a confirmation message
+//                        navController.popBackStack()
+//                    }
+//                ) {
+//                    Text("Save")
+//                }
+//            }
+//        }
+//    )
+//}

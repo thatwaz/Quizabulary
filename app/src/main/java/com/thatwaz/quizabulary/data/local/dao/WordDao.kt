@@ -6,9 +6,11 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
+import com.thatwaz.quizabulary.data.local.entities.Word
+import com.thatwaz.quizabulary.data.local.entities.WordWithDefinitions
 import kotlinx.coroutines.flow.Flow
-import com.thatwaz.quizabulary.data.local.Word
-import com.thatwaz.quizabulary.data.local.WordWithDefinitions
+
+
 
 @Dao
 interface WordDao {
@@ -19,9 +21,9 @@ interface WordDao {
     @Query("SELECT * FROM words WHERE isComplete = 0")
     fun getIncompleteWords(): Flow<List<Word>>
 
-    @Transaction
     @Query("SELECT * FROM words WHERE id = :wordId")
-    fun getWordWithDefinitions(wordId: Int): Flow<WordWithDefinitions>
+    fun getWordById(wordId: Int): Flow<Word?>
 }
+
 
 
